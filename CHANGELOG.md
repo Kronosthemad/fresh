@@ -1,5 +1,17 @@
 # Release Notes
 
+## 0.2.14
+
+### Improvements
+
+* **Keybinding Map Checkboxes**: Submenu items in the keybinding map now show checkbox indicators for toggled settings.
+
+### Bug Fixes
+
+* **Windows Memory Usage**: Fixed high memory usage on Windows caused by buffered input event draining before render (#1205).
+
+---
+
 ## 0.2.13
 
 ### Features
