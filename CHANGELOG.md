@@ -1,5 +1,89 @@
 # Release Notes
 
+## 0.2.18
+
+### Features
+
+* **Bracketed Paste on Windows & Input Overhaul**: Bracketed paste now works on Windows Terminal (reverted in v0.2.17 due to #1284), and keyboard issues are resolved (#1054). **Mouse hover is disabled by default on Windows** because reliable bracketed paste requires cell-motion tracking; enabling hover switches to all-motion tracking which can insert corrupt text under heavy mouse movement or slow CPU. Re-enable it in Settings UI under Editor → Mouse Hover Enabled. Under the hood, crossterm's Windows input handling is replaced with a new `fresh-winterm` crate using direct VT input reads, with corrupt mouse sequence detection, UTF-16 surrogate handling, and console mode heartbeat to counteract ConPTY drift.
+
+* **30 New Syntax Grammars**: Dockerfile, CMake, INI, SCSS, LESS, PowerShell, Kotlin, Swift, Dart, Elixir, F#, Nix, Terraform/HCL, Protobuf, GraphQL, Julia, Nim, Gleam, V, Solidity, KDL, Nushell, Starlark, Justfile, Earthfile, Go Module, Vue, Svelte, Astro, Hyprlang (#1266). These grammars are preliminary — please report highlighting issues for your language so we can improve them.
+
+* **Broad LSP Support**: Added LSP configs and helper plugins (with install instructions) for Nix, Kotlin, Swift, Scala, Elixir, Erlang, Haskell, OCaml, Clojure, R, Julia, Perl, Nim, Gleam, F#, Dart (#1252), Nushell (#1031), Solidity (#857), Vue, Svelte, Astro, Tailwind CSS, Terraform/HCL, CMake, Protobuf, GraphQL, SQL, Bash, Lua, Ruby, PHP, YAML, TOML, and Typst. LSP integration for these languages is early-stage — feedback from users of these languages is welcome.
+
+* **Deno LSP Auto-Detection**: Automatically detects and uses the Deno language server for JS/TS projects (#1191).
+
+* **`show_prompt_line` Setting**: New config option to auto-hide the prompt line. Applied immediately from Settings UI (#1273).
+
+* **`use_tabs` Setting**: Global `editor.use_tabs` config option for default tab indentation (#1295).
+
+### Improvements
+
+* **Plugin Commands in Keybinding Editor**: Plugin-registered commands are now shown and searchable in the keybinding editor.
+
+* **Theme Editor ANSI Colors**: Named ANSI colors display as "terminal native" instead of misleading RGB values, with correct native color swatches (#1301).
+
+* **Status Bar Language Info**: Shows "[syntax only]" when a language has no LSP config entry.
+
+* **Fallback Language Config**: Undetected file types now get a fallback language configuration (#1219).
+
+* **File Deletion Uses Trash**: `removePath` now uses the system trash instead of permanent deletion.
+
+* **Package Manager Cross-Platform**: Plugin package manager uses cross-platform APIs instead of Unix-specific commands on Windows (#1215).
+
+### Bug Fixes
+
+* Fixed arrow keys not working in `less`/`git log` in the embedded terminal, including `TERM` env var not being set on Unix.
+
+* Fixed Tab key getting trapped in TextList editing mode in Settings UI.
+
+* Fixed `{`, `}`, `;` highlighted as operators instead of punctuation in C/C++ (#1318, #1319).
+
+* Fixed auto-dedent for languages without tree-sitter, e.g. Dart.
+
+* Fixed auto-indent after closing brace in nested C++ blocks.
+
+* Fixed mouse click selecting wrong item in scrolled settings list.
+
+* Fixed keybindings for plugin-registered commands not executing (#1312).
+
+* Fixed Find Next/Find Previous ignoring cursor position (#1305).
+
+* Fixed Tab indent affecting lines outside selection (#1304).
+
+* Fixed Shift+letter keybinding deletion not persisting (#1303).
+
+* Fixed word selection not preserved when dragging after double-click (#1202, #1317).
+
+* Fixed `removePath` failing on Windows due to UNC path mismatch.
+
+* Fixed external files missing from tab bar after session restore.
+
+* Fixed scroll wheel targeting focused split instead of split under pointer (#1270).
+
+* Fixed wrap indent not working with tab indentation (#1283).
+
+* Fixed LSP "no server configured" for Kotlin and 30+ other languages.
+
+* Fixed Diff syntax highlighting scope-to-category mappings.
+
+* Fixed extension mappings for `.cjs`, `.mjs`, `.mts`, `.cts`, `Jenkinsfile`, `Brewfile`.
+
+* Fixed LSP initialization timeout too short (increased from 10s to 60s).
+
+### Internal
+
+* Added syntax highlighting validation suite with 93 fixture files and e2e tests.
+
+* Added e2e tests for Settings UI, keybinding editor, search/replace, and plugin commands.
+
+* Fixed multiple flaky e2e tests (search/replace, plugin uninstall, Settings UI).
+
+* Removed redundant `SIGUSR1` handler; relies on harness signal handler for backtraces.
+
+* Cleaned up completed design docs.
+
+---
+
 ## 0.2.17
 
 ### Bug Fixes
