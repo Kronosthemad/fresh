@@ -86,6 +86,7 @@ Made an effort to improve the search & replace command, tackling several issues:
 
 #### Misc
 
+* **No more stray `.fresh/` directory in your working dir** (#1991): orchestrator/cross-restart state now lives under `data_dir` instead of being dropped next to your project files.
 * **Buffer "library path" detection** (#1970, reported by @FF-AntiK): only `.cargo/registry` and `.cargo/git` are treated as Cargo library paths — local `.cargo/config.toml` etc. are no longer flagged.
 * **Julia grammar** (#1852, reported by @goszlanyi): the adjoint operator (`'`) no longer flips the rest of the line into string mode.
 * **`move_word_end` / `select_word_end` labels** (#1878, reported by @sour-dani): translated in all locales.
